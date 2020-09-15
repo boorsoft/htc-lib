@@ -3,7 +3,8 @@ var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 
 var cubeColor = Math.random() * 0xFF0000;
-var bgColor = Math.random() * 0x111111;
+var bgColor = cubeColor - 1.5;
+
 var scene = new THREE.Scene();
 scene.fog = new THREE.Fog(bgColor, 5, 2550);
 scene.background = new THREE.Color(bgColor);
@@ -87,8 +88,8 @@ function render() {
 }
 
 function onMouseMove(e) {
-    mouseX = (e.clientX - windowHalfX) * 2;
-    mouseY = (e.clientY - windowHalfY) * 2;
+    mouseX = (e.clientX - windowHalfX);
+    mouseY = (e.clientY - windowHalfY);
 }
 
 function onWindowResize() {
