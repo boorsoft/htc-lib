@@ -1,0 +1,14 @@
+.SearchBar {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+.search-container {
+  width: 800px;
+  height: 70px;
+  background: #f1f1f1;
+  border-radius: 25px;
+  box-shadow: 1px 3px 3px 2px rgba(0, 0, 0, 0.2);
+  margin: auto;
+}
