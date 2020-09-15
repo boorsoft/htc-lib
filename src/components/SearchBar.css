@@ -5,13 +5,14 @@
 }
 
 .search-container {
-  width: 800px;
+  width: 32vw;
   height: 70px;
   background: #f1f1f1;
   border-radius: 45px;
   box-shadow: 1px 3px 3px 2px rgba(0, 0, 0, 0.2);
   margin: auto;
   transition: 0.2s ease;
+  padding-right: 30px;
 }
 
 .search-container:hover {
@@ -19,11 +20,16 @@
 }
 
 .search-input {
-  width: 750px;
+  width: 30vw;
   height: 60px;
   border: none;
   background: none;
   font-size: 25px;
   padding: 5px 30px;
   line-height: 60px;
+  border-radius: 45px;
+}
+
+::placeholder {
+  color: #7b7b7b;
 }

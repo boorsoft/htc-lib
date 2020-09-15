@@ -2,9 +2,11 @@ var mouseX = 0, mouseY = 0;
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 
+var cubeColor = Math.random() * 0xFF0000;
+var bgColor = Math.random() * 0x111111;
 var scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0x101015, 5, 2550);
-scene.background = new THREE.Color(0x101015);
+scene.fog = new THREE.Fog(bgColor, 5, 2550);
+scene.background = new THREE.Color(bgColor);
 
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
@@ -18,7 +20,7 @@ var mouseX = 0, mouseY = 0;
 hemiLight = new THREE.HemisphereLight(0x66dbe8, 0xcfd1d0, 4);
 scene.add(hemiLight); 
 
-var light = new THREE.PointLight(0x72dbc2, 10, 50);
+var light = new THREE.PointLight(0xeaeaea, 10, 20);
 light.position.set(0, 100, 0);
 scene.add(light);
 
@@ -36,7 +38,7 @@ var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 var cubes = [];
 
 var boxGeometry = new THREE.BoxGeometry(35, 35, 35);
-var boxMaterial = new THREE.MeshLambertMaterial({color: 0xC3FEB});
+var boxMaterial = new THREE.MeshLambertMaterial({color: cubeColor});
 
 var boxGroup = new THREE.Group();
 
@@ -61,8 +63,7 @@ scene.add(boxGroup);
 boxGroup.position.y = -100;
 boxGroup.position.x = -100;
 
-camera.position.z = 2150;
-
+camera.position.z = 2020;
 
 function render() {
     requestAnimationFrame(render);
