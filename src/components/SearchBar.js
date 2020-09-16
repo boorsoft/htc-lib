@@ -6,7 +6,7 @@ export default class SearchBar extends React.Component {
     return(
       <div className="SearchBar">
         <div className="search-container">
-          <input className="search-input text-color-black" type="text" placeholder="Enter the book title..."/>
+          <input id="searchInput" className="search-input text-color-black" type="text" placeholder="Enter the book title..." />
         </div>
       </div>
     )

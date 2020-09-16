@@ -6,11 +6,11 @@ var cubeColor = Math.random() * 0xFF0000;
 var bgColor = cubeColor - 1.5;
 
 var scene = new THREE.Scene();
-scene.fog = new THREE.Fog(bgColor, 5, 2550);
+scene.fog = new THREE.Fog(bgColor, 5, 2150);
 scene.background = new THREE.Color(bgColor);
 
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+var renderer = new THREE.WebGLRenderer({antialias: true});
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -21,7 +21,7 @@ var mouseX = 0, mouseY = 0;
 hemiLight = new THREE.HemisphereLight(0x66dbe8, 0xcfd1d0, 4);
 scene.add(hemiLight); 
 
-var light = new THREE.PointLight(0xeaeaea, 10, 20);
+var light = new THREE.PointLight(0xeaeaea, 10, 10);
 light.position.set(0, 100, 0);
 scene.add(light);
 
@@ -43,14 +43,16 @@ var boxMaterial = new THREE.MeshLambertMaterial({color: cubeColor});
 
 var boxGroup = new THREE.Group();
 
-for (let i = 0; i < 1000; i++) {
+var loader = new THREE.GLTFLoader();
+
+for (let i = 0; i < 800; i++) {
     var cube = new THREE.Mesh(boxGeometry, boxMaterial);
 
     cube.castShadow = true;
     cube.receiveShadow = true;
     cube.position.x = Math.random() * 2000 - 1000;
     cube.position.y = Math.random() * 2000 - 1000;
-    cube.position.z = Math.random() * 2000 - 1000;
+    cube.position.z = Math.random() * 2000 - 500;
 
     cube.rotation.x = Math.random() * Math.PI * 2;
     cube.rotation.y = Math.random() * Math.PI * 2;
@@ -58,6 +60,19 @@ for (let i = 0; i < 1000; i++) {
 
     boxGroup.add(cube);
     cubes.push(cube);
+
+  // loader.load('/3Dmodels/scene.gltf', (gltf) => {
+
+  //   var model = gltf.scene.children[0];
+  //   model.scale.set(5.5, 5.5, 5.5);
+  //   model.position.x = Math.random() * 2000 - 1000;
+  //   model.position.y = Math.random() * 2000 - 1000;
+  //   model.position.z = Math.random() * 2000 - 500;
+
+  //   model.rotation.x = Math.random() * Math.PI * 2;
+  //   model.rotation.y = Math.random() * Math.PI * 2;
+  //   boxGroup.add(model);
+  // }); 
 }
 
 scene.add(boxGroup);
@@ -78,6 +93,7 @@ function render() {
     );   
 
     camera.position.z -= (mouseY - camera.position.y) * 0.001;
+    camera.lookAt(scene.position);
     boxGroup.rotation.y += (mouseY - boxGroup.rotation.y) * 0.001 / 1000;
     boxGroup.rotation.x += (mouseX - boxGroup.rotation.x) * 0.001 / 1000;
 
@@ -88,8 +104,8 @@ function render() {
 }
 
 function onMouseMove(e) {
-    mouseX = (e.clientX - windowHalfX);
-    mouseY = (e.clientY - windowHalfY);
+    mouseX = (e.clientX - windowHalfX) * 2;
+    mouseY = (e.clientY - windowHalfY) * 2;
 }
 
 function onWindowResize() {
