@@ -6,11 +6,13 @@ var bookColor = Math.random() * 0xFFFFFF;
 var bgColor = Math.random() * 0xFF0000;
 
 var scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(bgColor, 0.0007);
+scene.fog = new THREE.FogExp2(bgColor, 0.00035);
 scene.background = new THREE.Color(bgColor);
 
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 var renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.toneMappingExposure = 5.0;
+renderer.shadowMap.enabled = true;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -21,7 +23,7 @@ var mouseX = 0, mouseY = 0;
 var ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.3);
 scene.add(ambientLight);
 
-var directionalLight = new THREE.DirectionalLight(bgColor, 1);
+var directionalLight = new THREE.DirectionalLight(0x88cef7, 1);
 scene.add(directionalLight);
 
 var spotlight = new THREE.SpotLight(0xc1e0e3, 1.1);
@@ -31,74 +33,28 @@ spotlight.shadow.mapSize.width = 1024*4;
 spotlight.shadow.mapSize.height = 1024*4;
 scene.add(spotlight);
 
-var books = [];
+var objects = [];
 
 var boxGeometry = new THREE.BoxGeometry(35, 35, 35);
 var boxMaterial = new THREE.MeshLambertMaterial({color: bookColor});
 
-var booksGroup = new THREE.Group();
+var objectsGroup = new THREE.Group();
 
 var loader = new THREE.OBJLoader();
 
 var mtlLoader = new THREE.MTLLoader();
 
+loadModel('3Dmodels/book_easy.obj', '3Dmodels/book_easy.mtl', 40, 0);
+loadModel('3Dmodels/карандаш.obj', '3Dmodels/карандаш.mtl', 13, 2);
+loadModel('3Dmodels/часы.obj', '3Dmodels/часы.mtl', 10, 0, 2);
+loadModel('3Dmodels/pen.obj', '3Dmodels/pen.mtl', 12, 2);
 
-    // var cube = new THREE.Mesh(boxGeometry, boxMaterial);
+objectsGroup.position.y = -1000;
+scene.add(objectsGroup);
 
-    // cube.castShadow = true;
-    // cube.receiveShadow = true;
-    // cube.position.x = Math.random() * 2000 - 1000;
-    // cube.position.y = Math.random() * 2000 - 1000;
-    // cube.position.z = Math.random() * 2000 - 500;
-
-    // cube.rotation.x = Math.random() * Math.PI * 2;
-    // cube.rotation.y = Math.random() * Math.PI * 2;
-    // cube.add(light);
-
-    // boxGroup.add(cube);
-    // cubes.push(cube); 
-
-    mtlLoader.load('/3Dmodels/book_easy.mtl', (materials) => {
-      console.log('loaded')
-      materials.preload();
-
-      for (let i = 0; i < 250; i++) {
-        loader.setMaterials(materials);
-        loader.load('/3Dmodels/book_easy.obj', (object) => {
-
-          var bookMat = new THREE.MeshPhongMaterial({color: Math.random() * 0x333333});
-          bookMat.castShadow = true;
-          bookMat.receiveShadow = true;
-
-          object.traverse(n => {
-            if(n.isMesh) {
-                n.castShadow = true;
-                n.receiveShadow = true;
-                n.material[0] = bookMat;
-                if(n.material.map) n.material.map.anisotropy = 16;
-            }
-          })
-
-          object.position.x = Math.random() * 2500 - 1000;
-          object.position.y = Math.random() * 2800 - 1000;
-          object.position.z = Math.random() * 2500 - 500;
-
-          object.rotation.x = Math.random() * Math.PI * 2;
-          object.rotation.y = Math.random() * Math.PI * 2;
-          object.rotation.z = Math.random() * Math.PI * 2;
-
-          object.scale.set(5, 5, 5);
-          booksGroup.add(object);
-          books.push(object);
-        });
-      }
-    });
-
-scene.add(booksGroup);
-booksGroup.position.y = -100;
-booksGroup.position.x = -100;
-
-camera.position.z = 2020;
+camera.position.y = objectsGroup.position.y + 2500;
+camera.position.x = objectsGroup.position.x + 1500;
+camera.position.z = 2620;
 
 function render() {
     requestAnimationFrame(render);
@@ -111,14 +67,15 @@ function render() {
         camera.position.z + 5
     );   
 
-    camera.position.z -= (mouseY - camera.position.y) * 0.001;
-    camera.lookAt(scene.position);
-    booksGroup.rotation.y += (mouseY - booksGroup.rotation.y) * 0.001 / 1000;
-    booksGroup.rotation.x += (mouseX - booksGroup.rotation.x) * 0.001 / 1000;
+    if(camera.position.z < 3050) camera.position.z -= (mouseY - camera.position.y) * 0.0001;
+    camera.rotation.y += -(mouseX) * 0.00001;
+    camera.rotation.x += -(mouseY) * 0.00001;
+    // camera.lookAt(objectsGroup.position);
 
-    books.forEach((el) => {
+    objects.forEach((el) => {
         el.rotation.x += (mouseX - el.rotation.x) * 0.01 / 1000;
         el.rotation.y += (mouseY - el.rotation.y) * 0.01 / 1000;
+        el.rotation.z += (mouseY - el.rotation.z) * 0.01 / 1000;
     });
 }
 
@@ -137,3 +94,46 @@ document.addEventListener('mousemove', onMouseMove, false);
 
 window.addEventListener('resize', onWindowResize, false);
 render();   
+
+// Function to load models
+function loadModel(obj_path, mtl_path, amount, matIndex, matIndex2 = null) {
+  mtlLoader.load(mtl_path, (materials) => {
+      console.log('loaded')
+      materials.preload();
+
+      for (let i = 0; i < amount; i++) {
+        loader.setMaterials(materials);
+        loader.load(obj_path, (object) => {
+
+          var customMat = new THREE.MeshPhongMaterial({color: Math.random() * 0xFF0000});
+          customMat.castShadow = true;
+          customMat.receiveShadow = true;
+        
+          object.traverse(n => {
+            if(n.isMesh) {
+                n.castShadow = true;
+                n.receiveShadow = true;
+                n.material[matIndex] = customMat;
+                if(matIndex2) {
+                  n.material[matIndex2].opacity = 0.6;
+                  n.material[matIndex2].transparent = true;
+                }
+                if(n.material.map) n.material.map.anisotropy = 16;
+            }
+          })
+
+          object.position.x = Math.random() * 2400;
+          object.position.y = Math.random() * 3000;
+          object.position.z = Math.random() * 2900;
+
+          object.rotation.x = Math.random() * Math.PI * 2;
+          object.rotation.y = Math.random() * Math.PI * 2;
+          object.rotation.z = Math.random() * Math.PI * 2;
+
+          object.scale.set(15, 15, 15);
+          objectsGroup.add(object);
+          objects.push(object);
+        });
+      }
+    });
+}

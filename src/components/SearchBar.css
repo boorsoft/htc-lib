@@ -44,18 +44,6 @@
   color: #7b7b7b;
 }
 
-.submit-button {
-  border: none;
-  border-radius: 50%;
-  color: none;
-  cursor: pointer;
-}
-
-.submit-icon {
-  font-size: 40px;
-  color: #23eda6;
-}
-
 @media only screen and (max-width: 600px) {
   .search-input {
     font-size: 17px;
