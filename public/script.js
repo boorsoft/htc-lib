@@ -2,11 +2,11 @@ var mouseX = 0, mouseY = 0;
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 
-var cubeColor = Math.random() * 0xFF0000;
-var bgColor = cubeColor - 1.5;
+var bookColor = Math.random() * 0xFFFFFF;
+var bgColor = Math.random() * 0xFF0000;
 
 var scene = new THREE.Scene();
-scene.fog = new THREE.Fog(bgColor, 5, 2150);
+scene.fog = new THREE.FogExp2(bgColor, 0.0007);
 scene.background = new THREE.Color(bgColor);
 
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
@@ -18,66 +18,85 @@ document.body.appendChild(renderer.domElement);
 
 var mouseX = 0, mouseY = 0;
 
-hemiLight = new THREE.HemisphereLight(0x66dbe8, 0xcfd1d0, 4);
-scene.add(hemiLight); 
+var ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.3);
+scene.add(ambientLight);
 
-var light = new THREE.PointLight(0xeaeaea, 10, 10);
-light.position.set(0, 100, 0);
-scene.add(light);
+var directionalLight = new THREE.DirectionalLight(bgColor, 1);
+scene.add(directionalLight);
 
-var spotlight = new THREE.SpotLight(0xc1e0e3, 2);
+var spotlight = new THREE.SpotLight(0xc1e0e3, 1.1);
 spotlight.castShadow = true;
 spotlight.shadow.bias = -0.0001;
 spotlight.shadow.mapSize.width = 1024*4;
 spotlight.shadow.mapSize.height = 1024*4;
 scene.add(spotlight);
 
-var sphereGeometry = new THREE.SphereGeometry(5, 5, 5);
-var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
-var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-
-var cubes = [];
+var books = [];
 
 var boxGeometry = new THREE.BoxGeometry(35, 35, 35);
-var boxMaterial = new THREE.MeshLambertMaterial({color: cubeColor});
+var boxMaterial = new THREE.MeshLambertMaterial({color: bookColor});
 
-var boxGroup = new THREE.Group();
+var booksGroup = new THREE.Group();
 
-var loader = new THREE.GLTFLoader();
+var loader = new THREE.OBJLoader();
 
-for (let i = 0; i < 800; i++) {
-    var cube = new THREE.Mesh(boxGeometry, boxMaterial);
+var mtlLoader = new THREE.MTLLoader();
 
-    cube.castShadow = true;
-    cube.receiveShadow = true;
-    cube.position.x = Math.random() * 2000 - 1000;
-    cube.position.y = Math.random() * 2000 - 1000;
-    cube.position.z = Math.random() * 2000 - 500;
 
-    cube.rotation.x = Math.random() * Math.PI * 2;
-    cube.rotation.y = Math.random() * Math.PI * 2;
-    cube.add(light);
+    // var cube = new THREE.Mesh(boxGeometry, boxMaterial);
 
-    boxGroup.add(cube);
-    cubes.push(cube);
+    // cube.castShadow = true;
+    // cube.receiveShadow = true;
+    // cube.position.x = Math.random() * 2000 - 1000;
+    // cube.position.y = Math.random() * 2000 - 1000;
+    // cube.position.z = Math.random() * 2000 - 500;
 
-  // loader.load('/3Dmodels/scene.gltf', (gltf) => {
+    // cube.rotation.x = Math.random() * Math.PI * 2;
+    // cube.rotation.y = Math.random() * Math.PI * 2;
+    // cube.add(light);
 
-  //   var model = gltf.scene.children[0];
-  //   model.scale.set(5.5, 5.5, 5.5);
-  //   model.position.x = Math.random() * 2000 - 1000;
-  //   model.position.y = Math.random() * 2000 - 1000;
-  //   model.position.z = Math.random() * 2000 - 500;
+    // boxGroup.add(cube);
+    // cubes.push(cube); 
 
-  //   model.rotation.x = Math.random() * Math.PI * 2;
-  //   model.rotation.y = Math.random() * Math.PI * 2;
-  //   boxGroup.add(model);
-  // }); 
-}
+    mtlLoader.load('/3Dmodels/book_easy.mtl', (materials) => {
+      console.log('loaded')
+      materials.preload();
 
-scene.add(boxGroup);
-boxGroup.position.y = -100;
-boxGroup.position.x = -100;
+      for (let i = 0; i < 250; i++) {
+        loader.setMaterials(materials);
+        loader.load('/3Dmodels/book_easy.obj', (object) => {
+
+          var bookMat = new THREE.MeshPhongMaterial({color: Math.random() * 0x333333});
+          bookMat.castShadow = true;
+          bookMat.receiveShadow = true;
+
+          object.traverse(n => {
+            if(n.isMesh) {
+                n.castShadow = true;
+                n.receiveShadow = true;
+                n.material[0] = bookMat;
+                if(n.material.map) n.material.map.anisotropy = 16;
+            }
+          })
+
+          object.position.x = Math.random() * 2500 - 1000;
+          object.position.y = Math.random() * 2800 - 1000;
+          object.position.z = Math.random() * 2500 - 500;
+
+          object.rotation.x = Math.random() * Math.PI * 2;
+          object.rotation.y = Math.random() * Math.PI * 2;
+          object.rotation.z = Math.random() * Math.PI * 2;
+
+          object.scale.set(5, 5, 5);
+          booksGroup.add(object);
+          books.push(object);
+        });
+      }
+    });
+
+scene.add(booksGroup);
+booksGroup.position.y = -100;
+booksGroup.position.x = -100;
 
 camera.position.z = 2020;
 
@@ -94,10 +113,10 @@ function render() {
 
     camera.position.z -= (mouseY - camera.position.y) * 0.001;
     camera.lookAt(scene.position);
-    boxGroup.rotation.y += (mouseY - boxGroup.rotation.y) * 0.001 / 1000;
-    boxGroup.rotation.x += (mouseX - boxGroup.rotation.x) * 0.001 / 1000;
+    booksGroup.rotation.y += (mouseY - booksGroup.rotation.y) * 0.001 / 1000;
+    booksGroup.rotation.x += (mouseX - booksGroup.rotation.x) * 0.001 / 1000;
 
-    cubes.forEach((el) => {
+    books.forEach((el) => {
         el.rotation.x += (mouseX - el.rotation.x) * 0.01 / 1000;
         el.rotation.y += (mouseY - el.rotation.y) * 0.01 / 1000;
     });
