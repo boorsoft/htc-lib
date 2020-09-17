@@ -46,15 +46,23 @@
   color: #696969;
 }
 
+.select-wrapper {
+  position: relative;
+  width: 83px;
+}
+
 .select-wrapper:after {
   content: '\f078';
   font-family: 'Font Awesome 5 Free';
   font-weight: 600;
-  font-size: 13px;
+  font-size: 14px;
   color: #4d4d4d;
   pointer-events: none;
-  position: relative;
+  position: absolute;
   z-index: 1;
+  right: 2px;
+  top: 15px;
+  height: 100%;
 }
 
 #filter {
@@ -63,7 +71,9 @@
   color: #4d4d4d;
   border: none;
   height: 100%;
+  width: 100%;
   padding: 3px;
+  cursor: pointer;
   -moz-appearance:none;
   -webkit-appearance:none; 
   appearance: none;
@@ -78,6 +88,10 @@
 
   .search-input:focus {
     min-width: 240px; 
+  }
+
+  .select-wrapper:after {
+    top: 13px;
   }
 }
 
@@ -96,4 +110,5 @@
   #filter{
     font-size: 14px;
   }
+
 }
