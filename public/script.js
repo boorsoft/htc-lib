@@ -53,8 +53,8 @@ objectsGroup.position.y = -1000;
 scene.add(objectsGroup);
 
 camera.position.y = objectsGroup.position.y + 2500;
-camera.position.x = objectsGroup.position.x + 1500;
-camera.position.z = 2620;
+camera.position.x = objectsGroup.position.x + 5500;
+camera.position.z = 3020;
 
 function render() {
     requestAnimationFrame(render);
@@ -67,15 +67,15 @@ function render() {
         camera.position.z + 5
     );   
 
-    if(camera.position.z < 3050) camera.position.z -= (mouseY - camera.position.y) * 0.0001;
-    camera.rotation.y += -(mouseX) * 0.00001;
-    camera.rotation.x += -(mouseY) * 0.00001;
-    // camera.lookAt(objectsGroup.position);
+    // camera.rotation.y += -(mouseX) * 0.00001;
+    // camera.rotation.x += -(mouseY) * 0.00001;
+    camera.position.x += (mouseX - camera.position.x + 500) * 0.05;
+    camera.position.y += (mouseY - camera.position.y + 1500) * 0.05;
+    camera.lookAt(scene.position.x + 1500, scene.position.y, scene.position.z);
 
     objects.forEach((el) => {
-        el.rotation.x += (mouseX - el.rotation.x) * 0.01 / 1000;
-        el.rotation.y += (mouseY - el.rotation.y) * 0.01 / 1000;
-        el.rotation.z += (mouseY - el.rotation.z) * 0.01 / 1000;
+        el.rotation.x += (mouseX - el.rotation.x) * 0.005 / 1000;
+        el.rotation.y += (mouseY - el.rotation.y) * 0.005 / 1000;
     });
 }
 
@@ -122,7 +122,7 @@ function loadModel(obj_path, mtl_path, amount, matIndex, matIndex2 = null) {
             }
           })
 
-          object.position.x = Math.random() * 2400;
+          object.position.x = Math.random() * 2600;
           object.position.y = Math.random() * 3000;
           object.position.z = Math.random() * 2900;
 
@@ -130,7 +130,7 @@ function loadModel(obj_path, mtl_path, amount, matIndex, matIndex2 = null) {
           object.rotation.y = Math.random() * Math.PI * 2;
           object.rotation.z = Math.random() * Math.PI * 2;
 
-          object.scale.set(15, 15, 15);
+          object.scale.set(20, 20, 20);
           objectsGroup.add(object);
           objects.push(object);
         });
