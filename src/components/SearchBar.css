@@ -46,6 +46,17 @@
   color: #696969;
 }
 
+.select-wrapper:after {
+  content: '\f078';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 600;
+  font-size: 13px;
+  color: #4d4d4d;
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
+}
+
 #filter {
   background: transparent;
   font-size: 14px;
@@ -53,6 +64,9 @@
   border: none;
   height: 100%;
   padding: 3px;
+  -moz-appearance:none;
+  -webkit-appearance:none; 
+  appearance: none;
 }
 
 @media only screen and (max-width: 600px) {
