@@ -13,28 +13,41 @@ scene.background = new THREE.Color(bgColor);
 // Camera & Renderer
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 var renderer = new THREE.WebGLRenderer({antialias: true});
-renderer.toneMappingExposure = 5.0;
+renderer.toneMapping = THREE.LinearToneMapping;
+renderer.toneMappingExposure = 1.0;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.shadowMap.enabled = true;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
-
+renderer.setPixelRatio(window.devicePixelRatio);
 document.body.appendChild(renderer.domElement);
 
 var mouseX = 0, mouseY = 0;
 
 // Lights
-var ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.3);
-scene.add(ambientLight);
-
-var directionalLight = new THREE.DirectionalLight(0x88cef7, 1);
-scene.add(directionalLight);
-
-var spotlight = new THREE.SpotLight(0xc1e0e3, 1.1);
+var spotlight = new THREE.SpotLight(0xffdcbc, 0.7);
 spotlight.castShadow = true;
-spotlight.shadow.bias = -0.0001;
+spotlight.shadow.bias = 0.001;
 spotlight.shadow.mapSize.width = 1024*4;
 spotlight.shadow.mapSize.height = 1024*4;
+spotlight.angle = Math.PI / 2.2;
+spotlight.distance = 4300;
 scene.add(spotlight);
+
+var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6);
+hemiLight.color.set(0xffdbd1);
+hemiLight.groundColor.set(0xffbdb1);
+hemiLight.position.set(0, 1000, 4000);
+scene.add(hemiLight);
+
+var dirLight = new THREE.DirectionalLight(0xFFFFFF, 1);
+dirLight.position.set(-200, 10000, -10000);
+dirLight.castShadow = true;
+dirLight.shadowBias = -0.0001;
+dirLight.shadowDarkness = 0.45;
+dirLight.shadow.mapSize.width = 1024*4;
+dirLight.shadow.mapSize.height = 1024*4;
+scene.add(dirLight);
 
 // Objects/Geometries/Materials
 var objects = [];
@@ -54,7 +67,7 @@ objectsGroup.position.y = -1000;
 scene.add(objectsGroup);
 
 camera.position.y = objectsGroup.position.y + 2500;
-camera.position.x = objectsGroup.position.x + 5500;
+camera.position.x = objectsGroup.position.x + 2500;
 camera.position.z = 3020;
 
 // Animation function
@@ -65,12 +78,10 @@ function render() {
 
     spotlight.position.set(
         camera.position.x + 5,
-        camera.position.y + 5,
-        camera.position.z + 5
+        camera.position.y + 45,
+        camera.position.z + 100
     );   
 
-    // camera.rotation.y += -(mouseX) * 0.00001;
-    // camera.rotation.x += -(mouseY) * 0.00001;
     camera.position.x += (mouseX - camera.position.x + 500) * 0.05;
     camera.position.y += (mouseY - camera.position.y + 1500) * 0.05;
     camera.lookAt(scene.position.x + 1500, scene.position.y, scene.position.z);
@@ -124,8 +135,8 @@ function loadModel(obj_path, mtl_path, amount, matIndex, matIndex2 = null) {
             }
           })
 
-          object.position.x = Math.random() * 2600 + 150;
-          object.position.y = Math.random() * 3000 + 150;
+          object.position.x = Math.random() * 3000 + 150;
+          object.position.y = Math.random() * 2600 + 150;
           object.position.z = Math.random() * 2900 + 100;
 
           object.rotation.x = Math.random() * Math.PI * 2;
@@ -133,6 +144,7 @@ function loadModel(obj_path, mtl_path, amount, matIndex, matIndex2 = null) {
           object.rotation.z = Math.random() * Math.PI * 2;
 
           object.scale.set(20, 20, 20);
+          object.matrixAutoUpdate = true;
           objectsGroup.add(object);
           objects.push(object);
         });

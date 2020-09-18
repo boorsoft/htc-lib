@@ -7,7 +7,6 @@ export default class SearchBar extends React.Component {
     super(props);
 
     this.state = {
-      searchText: '',
       query: 'book',
       books: []
     }
@@ -33,15 +32,12 @@ export default class SearchBar extends React.Component {
   onInputChange = () => {
     const input = document.querySelector('#searchInput');
 
-    fetch(`https://htc-online-library-express.boorsoft.repl.co/api/books?${this.state.query}=${this.state.searchText.trim()}`)
+    fetch(`https://htc-online-library-express.boorsoft.repl.co/api/books?${this.state.query}=${input.value.trim()}`)
       .then(res => res.json())
       .then(books => {
         this.setState({books: books});
+        console.log('Books', books);
       });
-
-    this.setState({
-      searchText: input.value
-    });
 
   }
 
