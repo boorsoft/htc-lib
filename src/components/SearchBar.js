@@ -36,7 +36,8 @@ export default class SearchBar extends React.Component {
       .then(res => res.json())
       .then(books => {
         this.setState({books: books});
-        console.log('Books', books);
+        // console.log('Books', books);
+        this.props.passBooks(books);  // Вызываем метод, который обновляет книги в компоненте App через props
       });
 
   }
