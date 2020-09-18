@@ -5,10 +5,12 @@ var windowHalfY = window.innerHeight / 2;
 var bookColor = Math.random() * 0xFFFFFF;
 var bgColor = Math.random() * 0xFF0000;
 
+// Scene
 var scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(bgColor, 0.00035);
 scene.background = new THREE.Color(bgColor);
 
+// Camera & Renderer
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 var renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.toneMappingExposure = 5.0;
@@ -20,6 +22,7 @@ document.body.appendChild(renderer.domElement);
 
 var mouseX = 0, mouseY = 0;
 
+// Lights
 var ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.3);
 scene.add(ambientLight);
 
@@ -33,10 +36,8 @@ spotlight.shadow.mapSize.width = 1024*4;
 spotlight.shadow.mapSize.height = 1024*4;
 scene.add(spotlight);
 
+// Objects/Geometries/Materials
 var objects = [];
-
-var boxGeometry = new THREE.BoxGeometry(35, 35, 35);
-var boxMaterial = new THREE.MeshLambertMaterial({color: bookColor});
 
 var objectsGroup = new THREE.Group();
 
@@ -56,6 +57,7 @@ camera.position.y = objectsGroup.position.y + 2500;
 camera.position.x = objectsGroup.position.x + 5500;
 camera.position.z = 3020;
 
+// Animation function
 function render() {
     requestAnimationFrame(render);
 
@@ -122,9 +124,9 @@ function loadModel(obj_path, mtl_path, amount, matIndex, matIndex2 = null) {
             }
           })
 
-          object.position.x = Math.random() * 2600;
-          object.position.y = Math.random() * 3000;
-          object.position.z = Math.random() * 2900;
+          object.position.x = Math.random() * 2600 + 150;
+          object.position.y = Math.random() * 3000 + 150;
+          object.position.z = Math.random() * 2900 + 100;
 
           object.rotation.x = Math.random() * Math.PI * 2;
           object.rotation.y = Math.random() * Math.PI * 2;

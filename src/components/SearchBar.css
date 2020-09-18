@@ -60,7 +60,7 @@
   pointer-events: none;
   position: absolute;
   z-index: 1;
-  right: 2px;
+  right: 4px;
   top: 15px;
   height: 100%;
 }
@@ -70,6 +70,7 @@
   font-size: 14px;
   color: #4d4d4d;
   border: none;
+  outline: none;
   height: 100%;
   width: 100%;
   padding: 3px;
@@ -77,6 +78,7 @@
   -moz-appearance:none;
   -webkit-appearance:none; 
   appearance: none;
+  transition: 0.4s ease-in;
 }
 
 @media only screen and (max-width: 600px) {

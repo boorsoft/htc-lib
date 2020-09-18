@@ -2,16 +2,59 @@ import React from 'react';
 import './SearchBar.css';
 
 export default class SearchBar extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      searchText: '',
+      query: 'book',
+      books: []
+    }
+
+  }
+  
+  // On select change
+  onChange = () => {
+    const select = document.querySelector('#filter');
+    const input = document.querySelector('#searchInput');
+
+    if (select.value === 'teacher') {
+      input.placeholder = 'Enter the teacher name...';
+    } else if (select.value === 'book') {
+      input.placeholder = 'Enter the book title...';
+    } else if (select.value === 'subject') {
+      input.placeholder = 'Enter the subject name...';
+    }
+
+    this.setState({query: select.value});
+  }
+
+  onInputChange = () => {
+    const input = document.querySelector('#searchInput');
+
+    fetch(`https://htc-online-library-express.boorsoft.repl.co/api/books?${this.state.query}=${this.state.searchText.trim()}`)
+      .then(res => res.json())
+      .then(books => {
+        this.setState({books: books});
+      });
+
+    this.setState({
+      searchText: input.value
+    });
+
+  }
+
   render() {
     return(
       <div className="SearchBar">
         <div className="search-container">
-          <input id="searchInput" className="search-input text-color-black" type="text" placeholder="Enter the book title..." />
+          <input id="searchInput" className="search-input text-color-black" type="text" placeholder="Enter the book title..." onChange={this.onInputChange} />
           <div className="select-wrapper">
-              <select name="filter" id="filter">
-                <option value="teacher">Teacher</option>
+              <select name="filter" id="filter" onChange={this.onChange} defaultValue="book">
                 <option value="book">Book</option>
-                <option value="lesson">Lesson</option>
+                <option value="teacher">Teacher</option>
+                <option value="subject">Subject</option>
               </select>
           </div>
         </div>
