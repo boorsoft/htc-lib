@@ -1,4 +1,10 @@
 .Results {
   max-width: 700px;
-  min-width: 400px;
+  min-width: 300px;
+  border-radius: 8px;
+  background: rgba(241, 241, 241, .8);
+  padding: 10px;
 }
+
+/* зйбсь, не трогай блоки вывода и все прочее, я сам сделаю... только позже.
+ Ps: Абдра. Буду благодарен xD */

@@ -32,14 +32,17 @@ export default class SearchBar extends React.Component {
   onInputChange = () => {
     const input = document.querySelector('#searchInput');
 
-    fetch(`https://htc-online-library-express.boorsoft.repl.co/api/books?${this.state.query}=${input.value.trim()}`)
+    if (input.value !== '') {
+      fetch(`https://htc-online-library-express.boorsoft.repl.co/api/books?${this.state.query}=${input.value.trim()}`)
       .then(res => res.json())
       .then(books => {
         this.setState({books: books});
         // console.log('Books', books);
         this.props.passBooks(books);  // Вызываем метод, который обновляет книги в компоненте App через props
       });
-
+    } else {
+      this.setState({books: []});
+    }
   }
 
   render() {

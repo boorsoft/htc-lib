@@ -7,7 +7,7 @@ var bgColor = Math.random() * 0xFF0000;
 
 // Scene
 var scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(bgColor, 0.00035);
+scene.fog = new THREE.FogExp2(bgColor, 0.00025);
 scene.background = new THREE.Color(bgColor);
 
 // Camera & Renderer
@@ -31,7 +31,7 @@ spotlight.shadow.bias = 0.001;
 spotlight.shadow.mapSize.width = 1024*4;
 spotlight.shadow.mapSize.height = 1024*4;
 spotlight.angle = Math.PI / 2.2;
-spotlight.distance = 4300;
+spotlight.distance = 14300;
 scene.add(spotlight);
 
 var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6);
@@ -43,8 +43,8 @@ scene.add(hemiLight);
 var dirLight = new THREE.DirectionalLight(0xFFFFFF, 1);
 dirLight.position.set(-200, 10000, -10000);
 dirLight.castShadow = true;
-dirLight.shadowBias = -0.0001;
-dirLight.shadowDarkness = 0.45;
+dirLight.shadow.bias = -0.0001;
+dirLight.shadow.darkness = 0.45;
 dirLight.shadow.mapSize.width = 1024*4;
 dirLight.shadow.mapSize.height = 1024*4;
 scene.add(dirLight);
@@ -63,12 +63,21 @@ loadModel('3Dmodels/карандаш.obj', '3Dmodels/карандаш.mtl', 13, 
 loadModel('3Dmodels/часы.obj', '3Dmodels/часы.mtl', 10, 0, 2);
 loadModel('3Dmodels/pen.obj', '3Dmodels/pen.mtl', 12, 2);
 
-objectsGroup.position.y = -1000;
+objectsGroup.position.y = -200;
+objectsGroup.castShadow = true;
 scene.add(objectsGroup);
 
 camera.position.y = objectsGroup.position.y + 2500;
 camera.position.x = objectsGroup.position.x + 2500;
 camera.position.z = 3020;
+
+var groundGeometry = new THREE.PlaneGeometry(50000, 50000);
+var groundMaterial = new THREE.MeshLambertMaterial({color: 0xD5D5D5, side: THREE.DoubleSide});
+var ground = new THREE.Mesh(groundGeometry, groundMaterial);
+ground.position.set(0, -2000, 0);
+ground.receiveShadow = true;
+ground.rotation.x = - Math.PI / 2;
+scene.add(ground);
 
 // Animation function
 function render() {
@@ -121,6 +130,9 @@ function loadModel(obj_path, mtl_path, amount, matIndex, matIndex2 = null) {
           var customMat = new THREE.MeshPhongMaterial({color: Math.random() * 0xFF0000});
           customMat.castShadow = true;
           customMat.receiveShadow = true;
+
+          object.receiveShadow = true;
+          object.castShadow = true;
         
           object.traverse(n => {
             if(n.isMesh) {
