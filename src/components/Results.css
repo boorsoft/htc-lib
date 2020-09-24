@@ -1,10 +1,81 @@
 .Results {
-  max-width: 700px;
+  max-width: 550px;
+  width: 100%;
   min-width: 300px;
-  border-radius: 8px;
-  background: rgba(241, 241, 241, .8);
-  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
 }
 
-/* зйбсь, не трогай блоки вывода и все прочее, я сам сделаю... только позже.
- Ps: Абдра. Буду благодарен xD */
+.SingleResult {
+  width: 100%;
+  margin: 6px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(241, 241, 241, .85);
+  transition: .22s ease-in-out;
+  box-shadow: 1px 3px 3px 1px rgba(94, 94, 94, 0.2);
+  color: #3d3d3d;
+  display: flex;
+}
+
+.SingleResult:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 0px 4px 2px rgba(204, 204, 204, 0.4);
+  background: rgba(241, 241, 241, 1);
+  color: #1d1d1d;
+}
+
+.TitlesBox {
+  width: 70%;
+}
+
+.TitleName, .AuthorName {
+  font-size: 16px;
+  width: 100%;
+  margin: 5px 0;
+  margin-left: 18px;
+  font-weight: 500;
+}
+
+.Buttons {
+  width: 30%;
+  display: flex;
+}
+
+.ButtOpenNewTab, .ButtDownloadFile {
+  margin: auto;
+  text-align: center;
+  font-size: 22px;
+  width: 50%;
+  color: rgba(125, 181, 207, 1);
+  transition: .3s ease;
+  /* text-shadow: 0px 0px 2px rgba(143, 143, 143, 0.4); */
+}
+
+.ButtOpenNewTab:hover, .ButtDownloadFile:hover {
+  color: rgb(142, 209, 240);
+}
+
+@media only screen and (max-width: 600px) {
+  .SingleResult {
+    margin: 5px;
+  }
+  .ButtOpenNewTab, .ButtDownloadFile {
+    font-size: 18px;
+  }
+  .TitleName, .AuthorName {
+    font-size: 15px;
+    margin-left: 6px;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .SingleResult {
+    padding: 6px;
+    margin: 4px;
+  }
+  .TitleName, .AuthorName {
+    font-size: 14px;
+  }
+}

@@ -19,10 +19,6 @@
   align-items: center;
 }
 
-.App .SearchBar, .App .Results  {
-  margin: 10px;
-}
-
 .text-color-black {
   color: #404040;
 }

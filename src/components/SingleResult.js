@@ -6,10 +6,15 @@ export default class SingleResult extends React.Component {
 
   render() {
     return(
-      <div className="SingleResult">
-        TITLE: {this.props.book.title} {/* Таким образом получаем название книги */}
-        <br /> {/* Кстати, в реакте нет непарных элементов, все нужно закрывать */}
-        AUTHOR: {this.props.book.author} {/* Можно вывести автора */}
+      <div className="SingleResult" title={this.props.book.title}>
+        <div class="TitlesBox">
+          <h1 class="TitleName">TITLE: {this.props.book.title}</h1>
+          <h1 class="AuthorName">AUTHOR: {this.props.book.author}</h1>
+        </div>
+        <div class="Buttons">
+          <a title="Download this BOOK" class="ButtDownloadFile fas fa-cloud-download-alt" href="#"></a>
+          <a title="Open in new TAB" class="ButtOpenNewTab fas fa-external-link-alt" href="#"></a>
+        </div>
       </div>
     );
   }

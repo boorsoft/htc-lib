@@ -77,7 +77,7 @@ var ground = new THREE.Mesh(groundGeometry, groundMaterial);
 ground.position.set(0, -2000, 0);
 ground.receiveShadow = true;
 ground.rotation.x = - Math.PI / 2;
-scene.add(ground);
+// scene.add(ground);
 
 // Animation function
 function render() {
