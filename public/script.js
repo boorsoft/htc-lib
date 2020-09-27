@@ -67,8 +67,8 @@ objectsGroup.position.y = -200;
 objectsGroup.castShadow = true;
 scene.add(objectsGroup);
 
-camera.position.y = objectsGroup.position.y + 2500;
-camera.position.x = objectsGroup.position.x + 2500;
+camera.position.y = objectsGroup.position.y + 2800;
+camera.position.x = objectsGroup.position.x + 2800;
 camera.position.z = 3020;
 
 var groundGeometry = new THREE.PlaneGeometry(50000, 50000);
@@ -92,8 +92,8 @@ function render() {
     );   
 
     camera.position.x += (mouseX - camera.position.x + 500) * 0.05;
-    camera.position.y += (mouseY - camera.position.y + 1500) * 0.05;
-    camera.lookAt(scene.position.x + 1500, scene.position.y, scene.position.z);
+    camera.position.y += (mouseY - camera.position.y + 1800) * 0.05;
+    camera.lookAt(scene.position.x + 1600, scene.position.y, scene.position.z);
 
     objects.forEach((el) => {
         el.rotation.x += (mouseX - el.rotation.x) * 0.005 / 1000;
@@ -147,9 +147,9 @@ function loadModel(obj_path, mtl_path, amount, matIndex, matIndex2 = null) {
             }
           })
 
-          object.position.x = Math.random() * 3000 + 150;
-          object.position.y = Math.random() * 2600 + 150;
-          object.position.z = Math.random() * 2900 + 100;
+          object.position.x = Math.random() * 3000;
+          object.position.y = Math.random() * 2600;
+          object.position.z = Math.random() * 2900;
 
           object.rotation.x = Math.random() * Math.PI * 2;
           object.rotation.y = Math.random() * Math.PI * 2;
