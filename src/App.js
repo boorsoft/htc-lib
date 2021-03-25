@@ -2,6 +2,9 @@ import React from 'react';
 import './App.css';
 import SearchBar from './components/SearchBar';
 import Results from './components/Results';
+import AdminPanel from './components/AdminPanel'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+
 
 class App extends React.Component {
   constructor(props) {
@@ -20,10 +23,18 @@ class App extends React.Component {
 
   render() {
     return(
-      <div className="App">
-        <SearchBar passBooks={this.passBooks}/> {/* Передаем метод pasBooks через props(атрибуты) */}
-        <Results books={this.state.books}/>
-      </div>
+      <Router>
+
+        <Route path="/" exact render={() =>
+          <div className="App">
+            <SearchBar passBooks={this.passBooks}/> {/* Передаем метод pasBooks через props(атрибуты) */}
+            <Results books={this.state.books}/>
+          </div>
+        }/>
+
+        <Route path="/admin" component={AdminPanel} />
+
+      </Router>
     )
   }
 }

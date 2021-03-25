@@ -12,8 +12,8 @@ export default class SingleResult extends React.Component {
           <h1 className="AuthorName">{this.props.book.author}</h1>
         </div>
         <div className="Buttons">
-          <a title="Download this BOOK" className="ButtDownloadFile fas fa-cloud-download-alt" href="#"></a>
-          <a title="Open in new TAB" className="ButtOpenNewTab fas fa-external-link-square-alt" href="#"></a>
+          <a title="Download the book" className="ButtDownloadFile fas fa-cloud-download-alt" href={this.props.book.filename + '?export=download'}></a>
+          <a title="Open in new TAB" className="ButtOpenNewTab fas fa-external-link-square-alt" href={this.props.book.filename} target="_blank"></a>
         </div>
       </div>
     );
