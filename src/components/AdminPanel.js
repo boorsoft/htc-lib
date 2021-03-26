@@ -14,9 +14,18 @@ class AdminPanel extends React.Component {
         
         <div className="LoginFormContainer">
           <form>
-            <input id="username" className="username" type="text" placeholder="Enter your username..." onChange={this.onInputChange}/>
-            <input id="password" className="password" type="password" placeholder="Enter your password..." onChange={this.onInputChange} />
-            <input type="submit" className="submitButton" value="Login" />
+            <div className="input-container">
+              <input id="username" className="username text-input" type="text" placeholder="Enter your username..." onChange={this.onInputChange}/>
+            </div>
+
+            <div className="input-container">
+              <input id="password" className="password text-input" type="password" placeholder="Enter your password..." onChange={this.onInputChange} />
+            </div>
+
+            <div className="input-container">
+              <input type="submit" className="submitButton" value="Login" />
+            </div>
+            
           </form>
         </div>
 
