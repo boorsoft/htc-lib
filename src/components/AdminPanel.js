@@ -12,12 +12,12 @@ class AdminPanel extends React.Component {
         const token = this.getToken()
 
         if (!token) {
-            return <Login></Login>
+            return <Login token={token}></Login>
         }
 
         return (
             <div className="App">
-
+              <h1>ADMIN PANEL</h1>
             </div>
         )
     }

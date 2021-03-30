@@ -2,6 +2,7 @@ import React from 'react'
 import '../App.css'
 import './Login.css'
 import { apiURL } from '../utils'
+import { Redirect } from 'react-router-dom'
 
 class Login extends React.Component {
   constructor(props) {
@@ -9,7 +10,8 @@ class Login extends React.Component {
 
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      redirect: false
     }
   }
 
@@ -53,11 +55,16 @@ class Login extends React.Component {
     this.submitUser().then(data => {
       this.setToken(data.token)
       console.log('Token: ', data.token)
+      this.setState({redirect: true})
     })
   }
 
   render() {
+    const redirect = this.state.redirect
+    if (redirect) return <Redirect to="/admin" />
+
     return(
+
       <div className="App">
         
         <div className="LoginFormContainer">
