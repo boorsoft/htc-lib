@@ -11,8 +11,9 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      books: []
+      books: [] 
     }
+
   }
 
   // Получаем книги в этом компоненте с помощью этого метода
@@ -22,6 +23,7 @@ class App extends React.Component {
   }  
 
   render() {
+
     return(
       <Router>
 
