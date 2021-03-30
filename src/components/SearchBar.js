@@ -1,5 +1,6 @@
 import React from 'react';
 import './SearchBar.css';
+import { apiURL } from '../utils'
 
 export default class SearchBar extends React.Component {
 
@@ -33,7 +34,7 @@ export default class SearchBar extends React.Component {
     const input = document.querySelector('#searchInput');
 
     if (input.value !== '') {
-      fetch(`https://htc-online-library-express.boorsoft.repl.co/api/books?${this.state.query}=${input.value.trim()}`)
+      fetch(`${apiURL}/api/books?${this.state.query}=${input.value.trim()}`)
       .then(res => res.json())
       .then(books => {
         this.setState({books: books});

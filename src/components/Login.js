@@ -1,6 +1,7 @@
 import React from 'react'
 import '../App.css'
 import './Login.css'
+import { apiURL } from '../utils'
 
 class Login extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class Login extends React.Component {
 
   // Отправляем POST запрос на сервер
   submitUser = async () => {
-    const response = await fetch('https://htc-online-library-express.boorsoft.repl.co/user/login', 
+    const response = await fetch(`${apiURL}/user/login`, 
       {
         method: 'POST', 
         headers: {'Content-Type': 'application/json'},
