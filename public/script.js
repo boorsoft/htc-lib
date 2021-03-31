@@ -164,5 +164,6 @@ function loadModel(obj_path, mtl_path, amount, matIndex, matIndex2 = null) {
     })
 }
 
+// Рандомные цвета для фона (для мобильных устройств)
 const body = document.querySelector('body')
-body.style.backgroundColor = (Math.random() * 0xFFCC00)
+body.style.backgroundColor = `rgb(${Math.random() * 256}, ${Math.random() * 256}, ${Math.random() * 256}`
