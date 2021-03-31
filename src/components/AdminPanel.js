@@ -1,8 +1,15 @@
 import React from 'react'
 import '../App.css'
+import './AdminPanel.css'
 import Login from './Login'
 
 class AdminPanel extends React.Component {
+    constructor() {
+      this.state = {
+        books: []
+      }
+    }
+
     getToken = () => {
         const tokenString = localStorage.getItem('token')
         return tokenString
@@ -12,12 +19,14 @@ class AdminPanel extends React.Component {
         const token = this.getToken()
 
         if (!token) {
-            return <Login token={token}></Login>
+            return <Login token={token} />
         }
 
         return (
             <div className="App">
-              <h1>ADMIN PANEL</h1>
+              <div className="dashboard-container flex-column">
+
+              </div>
             </div>
         )
     }

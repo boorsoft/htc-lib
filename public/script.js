@@ -161,5 +161,8 @@ function loadModel(obj_path, mtl_path, amount, matIndex, matIndex2 = null) {
           objects.push(object);
         });
       }
-    });
+    })
 }
+
+const body = document.querySelector('body')
+body.style.backgroundColor = (Math.random() * 0xFFCC00)
