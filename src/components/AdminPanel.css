@@ -61,6 +61,7 @@
 .booklist-header-text {
   color: #f1f1f1;
   font-size: 22px;
+  width: 170px;
 }
 
 .books-list {
@@ -68,6 +69,7 @@
   border: #404040 solid 2px;
   border-radius: 10px;
   max-width: 1000px;
+  text-align: center;
 }
 
 .book-element {
@@ -76,6 +78,14 @@
   transition: color 0.2s ease-out;
   align-items: center;
   justify-content: space-around;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-lines: 2;
+}
+
+.book-element:last-child {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .book-element:hover {
@@ -84,6 +94,7 @@
 
 .title-text {
   font-size: 19px;
+  width: 170px;
 }
 
 #closer {
@@ -140,6 +151,16 @@
   border-radius: 8px;
   outline: none;
   cursor: pointer;
+}
+
+.delete-book {
+  background-color: #ef4052;
+}
+
+.buttons-container {
+  margin-top: 50px;
+  width: 200px;
+  justify-content: space-around;
 }
 
 .booklist-header-text, .title-text {
@@ -204,6 +225,10 @@
   }
   .submitBook {
     font-size: 15px;
+  }
+
+  .booklist-header-text, .title-text {
+    width: 80px;
   }
 }
 
