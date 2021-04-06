@@ -1,12 +1,14 @@
 .dashboard-container {
-  width: 85%;
-  min-height: 1000px;
+  width: 80%;
+  min-height: 80vh;
   background-color: #f1f1f1;
   border-radius: 20px;
   box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3);
   margin: 60px;
   padding: 80px;
   color: #404040;
+  justify-content: center;
+  align-items: center;
 }
 
 .flex-row {
@@ -24,9 +26,14 @@
 }
 
 .header-container {
-  height: 50px;
-  /* padding: 20px; */
+  height: auto;
   justify-content: space-between;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.header-text {
+  padding: 0 10px;
 }
 
 .icon {
@@ -41,25 +48,26 @@
   color: #111;
 }
 
-.input {
-  background: none;
-  border: none;
-  border-bottom: solid 1px #404040;
+.books-list-header {
   height: 40px;
-  outline: none;
-  margin: 10px;
+  background-color: #404040;
+  align-items: center;
+  justify-content: space-around;
+  padding: 5px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
 
-input[type=submit] {
-  width: 100px;
-  height: 60px;
-  border: none;
-  background: #333;
-  color: white;
+.booklist-header-text {
+  color: #f1f1f1;
+  font-size: 22px;
 }
 
 .books-list {
-  padding-top: 50px;
+  margin-top: 30px;
+  border: #404040 solid 2px;
+  border-radius: 10px;
+  max-width: 1000px;
 }
 
 .book-element {
@@ -75,5 +83,132 @@ input[type=submit] {
 }
 
 .title-text {
-  font-size: 22px;
+  font-size: 19px;
+}
+
+#closer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 9;
+}
+
+.add-book-form-container {
+  max-width: 700px;
+  width: 100%;
+  min-height: 600px;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  z-index: 10;
+  margin: auto;
+  padding: 25px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-book-form {
+  justify-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+}
+
+.input {
+  background: none;
+  border: none;
+  border-bottom: solid 1px #404040;
+  width: 100%;
+  max-width: 600px;
+  height: 35px;
+  outline: none;
+  margin: 10px;
+}
+
+.submitBook {
+  padding: 8px 15px;
+  color: #f1f1f1;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #404040;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+}
+
+.booklist-header-text, .title-text {
+  font-size: 18px;
+}
+
+@media only screen and (max-width: 1300px) {
+  .title-text {
+    font-size: 16px;
+  }
+
+  .booklist-header-text {
+    font-size: 16px;
+  }
+
+  .book-element {
+    height: 30px;
+  }
+
+  .dashboard-container {
+    border-radius: 0;
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .books-list {
+    border: #404040 solid 1px;
+  }
+  .dashboard-container{
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    border-radius: 0;
+    padding: 60px 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .books-list {
+    border: #404040 solid 1px;
+  }
+  .dashboard-container{
+    padding: 25px 0;
+  }
+  .header-text {
+    font-size: 22px;
+    padding: 10px;
+  }
+  .icon {
+    font-size: 18px;
+  }
+  .books-list-header {
+    border-radius: 0;
+  }
+  .books-list {
+    border-radius: 0;
+    margin-top: 15px;
+  }
+  .submitBook {
+    font-size: 15px;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .booklist-header-text, .title-text {
+    font-size: 13px;
+  }
 }
