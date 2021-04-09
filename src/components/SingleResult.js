@@ -13,7 +13,7 @@ export default class SingleResult extends React.Component {
         </div>
         <div className="Buttons">
           <a title="Download the book" className="ButtDownloadFile fas fa-cloud-download-alt" href={this.props.book.filename + '?export=download'}></a>
-          <a title="Open in new TAB" className="ButtOpenNewTab fas fa-external-link-square-alt" href={this.props.book.filename} target="_blank"></a>
+          <a title="Open in new TAB" className="ButtOpenNewTab fas fa-external-link-square-alt" href={this.props.book.filename} target="_blank" rel="noopener noreferrer"></a>
         </div>
       </div>
     );
