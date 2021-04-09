@@ -21,7 +21,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "homepage": "https://boorsoft.github.io/htc-lib",
   "browserslist": {
     "production": [
       ">0.2%",
