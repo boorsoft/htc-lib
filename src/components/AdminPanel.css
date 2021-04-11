@@ -114,8 +114,10 @@
   border-radius: 20px;
   box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3);
   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 10;
-  margin: auto;
   padding: 25px;
   flex-wrap: wrap;
   align-items: center;

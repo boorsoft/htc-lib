@@ -28,17 +28,21 @@ class AdminPanel extends React.Component {
     // метод выполняется после загрузки страницы
     componentDidMount() {
 
-      // Загрузить книги после загрузки страницы
-      fetch(`${apiURL}/api/books`)
-        .then((res) => res.json())
-        .then((books) => {
-          this.setState({books: books})
-        })
+      this.fetchBooks()
       
       const tokenKey = this.getToken()
 
       this.setState({token: tokenKey}) // назначить токен из localStorage браузера
       console.log('State', this.state)
+    }
+
+    fetchBooks = () => {
+      // Загрузить книги 
+      fetch(`${apiURL}/api/books`)
+        .then((res) => res.json())
+        .then((books) => {
+          this.setState({books: books})
+        })
     }
 
     getToken = () => {
@@ -72,8 +76,7 @@ class AdminPanel extends React.Component {
     }
     
     // Отправить запрос на добавление новой книги
-    submitBook = (e) => {
-      e.preventDefault()
+    submitBook = () => {
       
       fetch(`${apiURL}/api/books`, {
         method: 'POST',
@@ -91,83 +94,80 @@ class AdminPanel extends React.Component {
       }).then((data) => console.log(data))
         .catch((err) => console.error(err))
 
-      this.setState({formOpen: false, bookToAdd: {
-            title: '',
-            author: '',
-            teacher: '',
-            subject: '',
-            filename: ''
-          }
-        })
-    }
-
-    updateBook = (id) => {
-      fetch(`${apiURL}/api/books/${id}`, {
-        method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          title: this.state.bookToAdd.title,
-          author: this.state.bookToAdd.author,
-          teacher: this.state.bookToAdd.teacher,
-          subject: this.state.bookToAdd.subject,
-          filename: this.state.bookToAdd.filename,
-          token: this.state.token
-        })
-      }).then((res) => {
-        return res.status
-      }).then((data) => console.log(data))
-        .catch((err) => console.error(err))
-    }
-
-    deleteBook = (id) => {
-
-      fetch(`${apiURL}/api/books/${id}`, {
-      method: 'DELETE',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        token: this.state.token
-      })
-      }).then((res) => {
-        return res.status
-      }).then((data) => console.log(data))
-          .catch((err) => console.error(err))
+      console.log('adding a new book')
       
     }
 
-    openForm = (update = false, book = {}) => {
-      this.setState({formOpen: true, updateForm: false})
+    updateBook = (id) => {
+      console.log('updating')
+      // fetch(`${apiURL}/api/books/${id}`, {
+      //   method: 'PUT',
+      //   headers: {'Content-Type': 'application/json'},
+      //   body: JSON.stringify({
+      //     title: this.state.bookToAdd.title,
+      //     author: this.state.bookToAdd.author,
+      //     teacher: this.state.bookToAdd.teacher,
+      //     subject: this.state.bookToAdd.subject,
+      //     filename: this.state.bookToAdd.filename,
+      //     token: this.state.token
+      //   })
+      // }).then((res) => {
+      //   return res.status
+      // }).then((data) => console.log(data))
+      //   .catch((err) => console.error(err))
+    }
 
+    deleteBook = (id) => {
+      console.log('deleting')
+      // fetch(`${apiURL}/api/books/${id}`, {
+      // method: 'DELETE',
+      // headers: {'Content-Type': 'application/json'},
+      // body: JSON.stringify({
+      //   token: this.state.token
+      // })
+      // }).then((res) => {
+      //   return res.status
+      // }).then((data) => console.log(data))
+      //     .catch((err) => console.error(err))
+      
+    }
+
+    openForm = () => {
+      this.setState({formOpen: true})
+
+      document.querySelector('#title').value = ''
+      document.querySelector('#author').value = ''
+      document.querySelector('#teacher').value = ''
+      document.querySelector('#subject').value = ''
+      document.querySelector('#filename').value = ''
+
+      console.log('open form')
+    }
+
+    openUpdateForm = (book = {}) => {
       const title = document.querySelector('#title')
       const author = document.querySelector('#author')
       const teacher = document.querySelector('#teacher')
       const subject = document.querySelector('#subject')
       const filename = document.querySelector('#filename')
 
-      title.value = ''
-      author.value = ''
-      teacher.value = ''
-      subject.value = ''
-      filename.value = ''
-
-      // Если заполняем форму для обновления
-      if (update) {
-        title.value = book.title
-        author.value = book.author
-        teacher.value = book.teacher
-        subject.value = book.subject
-        filename.value = book.filename
-        this.setState({updateForm: true, bookToUpdateID: book.book_id, bookToAdd: {
+      this.setState({formOpen: true, updateForm: true, bookToUpdateID: book.book_id, bookToAdd: {
           title: title.value,
           author: author.value,
           teacher: teacher.value,
           subject: subject.value,
           filename: filename.value
-        }})
-      }
+      }})
+
+      title.value = book.title
+      author.value = book.author
+      teacher.value = book.teacher
+      subject.value = book.subject
+      filename.value = book.filename
     }
 
     closeForm = () => {
-      this.setState({formOpen: false})
+      this.setState({formOpen: false, updateForm: false})
     }
 
     render() {
@@ -187,7 +187,7 @@ class AdminPanel extends React.Component {
               <div className="dashboard-container flex-column">
                 <div className="header-container flex-row">
                   <h1 className="header-text">Dashboard</h1>
-                    <i className="fas fa-plus icon" id="addBooks" onClick={() => this.openForm()} />
+                    <i className="fas fa-plus icon" id="addBooks" onClick={this.openForm} />
                     <i className="fa fa-power-off icon" id="logoutButton" onClick={this.logout} />
                 </div>
 
@@ -200,7 +200,7 @@ class AdminPanel extends React.Component {
                     <p className="booklist-header-text">Filename</p>
                   </div>
                   {this.state.books.map((book) =>
-                    <div className="book-element flex-row" key={book.book_id} book={book} onClick={() => this.openForm(true, book)}>
+                    <div className="book-element flex-row" key={book.book_id} book={book} onClick={() => this.openUpdateForm(book)}>
                       <p className="title-text">{book.title}</p>
                       <p className="title-text">{book.author}</p>
                       <p className="title-text">{book.subject}</p>

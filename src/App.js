@@ -25,7 +25,7 @@ class App extends React.Component {
   render() {
 
     return(
-      <Router basename="https://boorsoft.github.io/">
+      <Router>
 
         <Route path="/" exact render={() =>
           <div className="App">
