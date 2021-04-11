@@ -33,7 +33,7 @@ class AdminPanel extends React.Component {
       const tokenKey = this.getToken()
 
       this.setState({token: tokenKey}) // назначить токен из localStorage браузера
-      console.log('State', this.state)
+     
     }
 
     fetchBooks = () => {
@@ -100,36 +100,39 @@ class AdminPanel extends React.Component {
 
     updateBook = (id) => {
       console.log('updating')
-      // fetch(`${apiURL}/api/books/${id}`, {
-      //   method: 'PUT',
-      //   headers: {'Content-Type': 'application/json'},
-      //   body: JSON.stringify({
-      //     title: this.state.bookToAdd.title,
-      //     author: this.state.bookToAdd.author,
-      //     teacher: this.state.bookToAdd.teacher,
-      //     subject: this.state.bookToAdd.subject,
-      //     filename: this.state.bookToAdd.filename,
-      //     token: this.state.token
-      //   })
-      // }).then((res) => {
-      //   return res.status
-      // }).then((data) => console.log(data))
-      //   .catch((err) => console.error(err))
+      fetch(`${apiURL}/api/books/${id}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          title: this.state.bookToAdd.title,
+          author: this.state.bookToAdd.author,
+          teacher: this.state.bookToAdd.teacher,
+          subject: this.state.bookToAdd.subject,
+          filename: this.state.bookToAdd.filename,
+          token: this.state.token
+        })
+      }).then((res) => {
+        return res.status
+      }).then((data) => console.log(data))
+        .catch((err) => console.error(err))
+        
+      window.location.reload()
     }
 
     deleteBook = (id) => {
       console.log('deleting')
-      // fetch(`${apiURL}/api/books/${id}`, {
-      // method: 'DELETE',
-      // headers: {'Content-Type': 'application/json'},
-      // body: JSON.stringify({
-      //   token: this.state.token
-      // })
-      // }).then((res) => {
-      //   return res.status
-      // }).then((data) => console.log(data))
-      //     .catch((err) => console.error(err))
-      
+      fetch(`${apiURL}/api/books/${id}`, {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        token: this.state.token
+      })
+      }).then((res) => {
+        return res.status
+      }).then((data) => console.log(data))
+          .catch((err) => console.error(err))
+
+      window.location.reload() 
     }
 
     openForm = () => {
@@ -173,6 +176,7 @@ class AdminPanel extends React.Component {
     render() {
         const token = this.getToken()
         var formOpen = this.state.formOpen
+        var updateForm = this.state.updateForm
     
         if (!token) {
             return <Login token={token} />
@@ -211,7 +215,7 @@ class AdminPanel extends React.Component {
                 </div>
 
                 <div className="add-book-form-container" style={{display: formOpen ? 'flex' : 'none'}}>
-                  <form className="add-book-form flex-column" onSubmit={this.state.updateForm ? this.updateBook(this.state.bookToUpdateID) : this.submitBook}>
+                  <div className="add-book-form flex-column">
 
                     <input type="text" name="title" id="title" className="input" placeholder="Title" onChange={this.onInputChange}/>
                     <input type="text" name="author" id="author" className="input" placeholder="Author" onChange={this.onInputChange}/>
@@ -220,11 +224,11 @@ class AdminPanel extends React.Component {
                     <input type="text" name="filename" id="filename" className="input" placeholder="Filename" onChange={this.onInputChange}/>
 
                     <div className="flex-row buttons-container">
-                      <input type="submit" className="submitBook" value={this.state.updateForm ? 'Update' : 'Submit'} />
-                      {this.state.updateForm ? <button className="submitBook delete-book" onClick={this.deleteBook(this.state.bookToUpdateID)}>Delete</button> : null}
+                      <button className="submitBook" onClick={() => updateForm ? this.updateBook(this.state.bookToUpdateID) : this.submitBook()}>{updateForm ? 'Update' : 'Submit'}</button>
+                      {updateForm ? <button className="submitBook delete-book" onClick={() => this.deleteBook(this.state.bookToUpdateID)}>Delete</button> : null}
                     </div>
 
-                  </form>
+                  </div>
                 </div>
 
               </div>
