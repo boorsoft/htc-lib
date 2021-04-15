@@ -76,9 +76,9 @@ class AdminPanel extends React.Component {
     }
     
     // Отправить запрос на добавление новой книги
-    submitBook = () => {
+    submitBook = async () => {
       
-      fetch(`${apiURL}/api/books`, {
+      await fetch(`${apiURL}/api/books`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -95,12 +95,12 @@ class AdminPanel extends React.Component {
         .catch((err) => console.error(err))
 
       console.log('adding a new book')
-      
+      window.location.reload()
     }
 
-    updateBook = (id) => {
+    updateBook = async (id) => {
       console.log('updating')
-      fetch(`${apiURL}/api/books/${id}`, {
+      await fetch(`${apiURL}/api/books/${id}`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -119,9 +119,10 @@ class AdminPanel extends React.Component {
       window.location.reload()
     }
 
-    deleteBook = (id) => {
+    deleteBook = async (id) => {
       console.log('deleting')
-      fetch(`${apiURL}/api/books/${id}`, {
+      
+      await fetch(`${apiURL}/api/books/${id}`, {
       method: 'DELETE',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
