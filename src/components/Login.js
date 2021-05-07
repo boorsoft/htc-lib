@@ -11,7 +11,8 @@ class Login extends React.Component {
     this.state = {
       username: '',
       password: '',
-      redirect: false
+      redirect: false,
+      error: false
     }
   }
 
@@ -42,6 +43,7 @@ class Login extends React.Component {
     // Если сервер ответил 401 или 404
     if (response.status === 401 || response.status === 404) {
       console.error('Authorization failed')
+      this.setState({error: true})
     }
     
     return response.json()
@@ -53,9 +55,12 @@ class Login extends React.Component {
     console.log('submiting')
 
     this.submitUser().then(data => {
-      this.setToken(data.token)
-      console.log('Token: ', data.token)
-      this.setState({redirect: true})
+      if (!this.state.error) {
+        this.setToken(data.token)
+        console.log('Token: ', data.token)
+        this.setState({redirect: true})
+      }
+      
     })
   }
 
